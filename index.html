@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KI-Hub - Einfach & Funktionell</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #333;
+      text-align: center;
+      padding: 20px;
+      min-height: 100vh;
+      margin: 0;
+    }
+    
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      color: white;
+      margin-bottom: 30px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      font-size: 2.5em;
+    }
+    
+    .section {
+      margin: 20px 0;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    
+    .section h2 {
+      color: #555;
+      margin-bottom: 20px;
+    }
+    
+    button {
+      margin: 8px;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      transition: all 0.2s;
+      min-width: 150px;
+      line-height: 1.3;
+    }
+    
+    button small {
+      display: block;
+      font-size: 12px;
+      font-weight: normal;
+      opacity: 0.9;
+      margin-top: 3px;
+    }
+    
+    .text-ai { 
+      background: #4CAF50;
+    }
+    .text-ai:hover { 
+      background: #45a049;
+      transform: scale(1.05);
+    }
+    
+    .image-ai { 
+      background: #2196F3;
+    }
+    .image-ai:hover { 
+      background: #0b7dda;
+      transform: scale(1.05);
+    }
+    
+    .control-btn { 
+      background: #ff9800;
+    }
+    .control-btn:hover { 
+      background: #e68900;
+    }
+    
+    #status {
+      margin: 15px 0;
+      padding: 15px;
+      font-size: 16px;
+      background: #e3f2fd;
+      border: 2px solid #2196F3;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+    
+    #micBtn {
+      font-size: 30px;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin: 10px auto;
+      display: block;
+    }
+    
+    .listening {
+      background: #f44336 !important;
+      animation: pulse 1s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin: 20px 0;
+    }
+    
+    .debug {
+      background: #f0f0f0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      margin: 10px 0;
+      font-family: monospace;
+      font-size: 12px;
+      text-align: left;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🤖 Mein KI-Hub</h1>
+    
+    <div class="section">
+      <h2>🎤 Sprachsteuerung</h2>
+      <button id="micBtn" class="control-btn">🎤</button>
+      <div id="status">Klicke auf das Mikrofon für Sprachsteuerung</div>
+      <div id="debug" class="debug"></div>
+    </div>
+
+    <div class="section">
+      <h2>💬 Text-KIs</h2>
+      <div class="button-grid">
+        <button class="text-ai" data-url="https://chat.openai.com/">ChatGPT <small>(Chat)</small></button>
+        <button class="text-ai" data-url="https://claude.ai/">Claude <small>(Claudia)</small></button>
+        <button class="text-ai" data-url="https://www.perplexity.ai/">Perplexity <small>(Plexi)</small></button>
+        <button class="text-ai" data-url="https://gemini.google.com/">Gemini <small>(Zwilling, Google)</small></button>
+        <button class="text-ai" data-url="https://copilot.microsoft.com/">Microsoft Copilot <small>(Mitfahrer)</small></button>
+        <button class="text-ai" data-url="https://www.manus.ai/">Manus <small>(Schreiber)</small></button>
+        <button class="text-ai" data-url="https://www.lechat.ai/">Le Chat <small>(Franzosen, Franzmann)</small></button>
+        <button class="text-ai" data-url="https://deepseek.ai/">DeepSeek <small>(Chinese)</small></button>
+        <button class="text-ai" data-url="https://grok.com/">Grok <small>(X-Man)</small></button>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>🎨 Bild-KIs</h2>
+      <div class="button-grid">
+        <button class="image-ai" data-url="https://app.leonardo.ai/">Leonardo AI <small>(Lenni, Lenny)</small></button>
+        <button class="image-ai" data-url="https://cgdream.ai/">CGDream <small>(Dreamer, Träumer)</small></button>
+        <button class="image-ai" data-url="https://preview.reve.art/app">Reve <small>(Rewe, franz. Traum)</small></button>
+        <button class="image-ai" data-url="https://creator.nightcafe.studio/">NightCafe <small>(Späti, Nachtcafe)</small></button>
+        <button class="image-ai" data-url="https://qwen.ai/">Qwen <small>(Queen, chin. Königin)</small></button>
+        <button class="image-ai" data-url="https://arena.lmsys.org/">LM Arena <small>(Arena)</small></button>
+        <button class="image-ai" data-url="https://huggingface.co/spaces">HuggingFace <small>(Gesicht)</small></button>
+        <button class="image-ai" data-url="https://nanobanana.ai/">Nano Banana <small>(Banane)</small></button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ===========================================
+    // GLOBALE VARIABLEN
+    // ===========================================
+    let recognition = null;
+    let isListening = false;
+    let debugMode = false; // Auf true setzen für Debug-Infos
+
+    // ===========================================
+    // ERWEITERTE KI-DEFINITIONEN MIT DEUTSCHEN BEGRIFFEN
+    // ===========================================
+    const kiList = {
+      'chatgpt': { 
+        url: 'https://chat.openai.com/', 
+        names: ['chatgpt', 'chat gpt', 'chat', 'gpt', 'openai', 'chegti', 'tschett']
+      },
+      'claude': { 
+        url: 'https://claude.ai/', 
+        names: ['claude', 'claudia', 'klaud', 'klaude', 'cloud', 'claud']
+      },
+      'perplexity': { 
+        url: 'https://www.perplexity.ai/', 
+        names: ['perplexity', 'plexi', 'perp', 'suche', 'perplex', 'komplexität']
+      },
+      'gemini': { 
+        url: 'https://gemini.google.com/', 
+        names: ['gemini', 'zwilling', 'zwillinge', 'google', 'gugel', 'dschemini', 'den zwilling']
+      },
+      'copilot': { 
+        url: 'https://copilot.microsoft.com/', 
+        names: ['copilot', 'mitfahrer', 'pilot', 'microsoft', 'den mitfahrer', 'kopilot']
+      },
+      'manus': { 
+        url: 'https://www.manus.ai/', 
+        names: ['manus', 'schreiber', 'text', 'schreiben', 'den schreiber', 'hand']
+      },
+      'lechat': { 
+        url: 'https://www.lechat.ai/', 
+        names: ['le chat', 'franzosen', 'franzmann', 'den franzosen', 'den franzmann', 'französisch', 'lechat']
+      },
+      'deepseek': { 
+        url: 'https://deepseek.ai/', 
+        names: ['deepseek', 'chinese', 'chinesen', 'den chinesen', 'den chinese', 'china', 'deep', 'seek']
+      },
+      'grok': { 
+        url: 'https://grok.com/', 
+        names: ['grok', 'x-man', 'xmen', 'x men', 'elon', 'twitter', 'x', 'grog']
+      },
+      'leonardo': { 
+        url: 'https://app.leonardo.ai/', 
+        names: ['leonardo', 'lenni', 'lenny', 'leo', 'bild', 'bilder', 'künstler', 'da vinci']
+      },
+      'cgdream': { 
+        url: 'https://cgdream.ai/', 
+        names: ['cgdream', 'dreamer', 'träumer', 'den träumer', 'dream', 'traum', 'cg']
+      },
+      'reve': { 
+        url: 'https://preview.reve.art/app', 
+        names: ['reve', 'rewe', 'französischen traum', 'den französischen traum', 'rev', 'französisch traum']
+      },
+      'nightcafe': { 
+        url: 'https://creator.nightcafe.studio/', 
+        names: ['nightcafe', 'späti', 'nachtcafe', 'nacht cafe', 'kaffee', 'den späti', 'night']
+      },
+      'qwen': { 
+        url: 'https://qwen.ai/', 
+        names: ['qwen', 'queen', 'königin', 'chinesische königin', 'die chinesische königin', 'die königin', 'kwen']
+      },
+      'arena': { 
+        url: 'https://arena.lmsys.org/', 
+        names: ['arena', 'die arena', 'lm arena', 'kampf', 'vergleich']
+      },
+      'huggingface': { 
+        url: 'https://huggingface.co/spaces', 
+        names: ['huggingface', 'gesicht', 'das gesicht', 'hugging', 'umarmung', 'hug']
+      },
+      'nanobanana': { 
+        url: 'https://nanobanana.ai/', 
+        names: ['nano banana', 'banane', 'die banane', 'banana', 'nano', 'nana']
+      }
+    };
+
+    // ===========================================
+    // HELPER FUNKTIONEN
+    // ===========================================
+    function debugLog(message) {
+      console.log('🐛 DEBUG:', message);
+      if (debugMode) {
+        const debugDiv = document.getElementById('debug');
+        debugDiv.style.display = 'block';
+        debugDiv.innerHTML += new Date().toLocaleTimeString() + ': ' + message + '<br>';
+        debugDiv.scrollTop = debugDiv.scrollHeight;
+      }
+    }
+
+    function updateStatus(message) {
+      document.getElementById('status').textContent = message;
+      debugLog('Status: ' + message);
+    }
+
+    // ===========================================
+    // KI ÖFFNEN FUNKTION (EINFACH)
+    // ===========================================
+    function openKI(url) {
+      debugLog('Versuche zu öffnen: ' + url);
+      try {
+        const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+        if (newWindow) {
+          updateStatus('✅ KI wird geöffnet: ' + url);
+        } else {
+          updateStatus('❌ Popup blockiert! Erlaube Popups für diese Seite');
+        }
+      } catch (error) {
+        debugLog('Fehler beim Öffnen: ' + error.message);
+        updateStatus('❌ Fehler beim Öffnen der URL');
+      }
+    }
+
+    // ===========================================
+    // BUTTON CLICK HANDLER
+    // ===========================================
+    function setupButtonHandlers() {
+      const buttons = document.querySelectorAll('button[data-url]');
+      buttons.forEach(button => {
+        button.addEventListener('click', function() {
+          const url = this.getAttribute('data-url');
+          const name = this.textContent;
+          debugLog('Button geklickt: ' + name + ' -> ' + url);
+          openKI(url);
+        });
+      });
+    }
+
+    // ===========================================
+    // SPRACHSTEUERUNG
+    // ===========================================
+    function toggleListening() {
+      if (isListening) {
+        stopListening();
+      } else {
+        startListening();
+      }
+    }
+
+    function startListening() {
+      debugLog('Versuche Spracherkennung zu starten...');
+      
+      // Browser-Check
+      if (!window.webkitSpeechRecognition && !window.SpeechRecognition) {
+        updateStatus('❌ Spracherkennung nicht unterstützt');
+        return;
+      }
+
+      try {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRecognition();
+        
+        recognition.lang = 'de-DE';
+        recognition.continuous = false; // Einmalige Erkennung
+        recognition.interimResults = false;
+        
+        recognition.onstart = function() {
+          isListening = true;
+          document.getElementById('micBtn').classList.add('listening');
+          document.getElementById('micBtn').textContent = '🛑';
+          updateStatus('🎤 Ich höre... Sage z.B. "Öffne ChatGPT"');
+          debugLog('Spracherkennung gestartet');
+        };
+        
+        recognition.onresult = function(event) {
+          const transcript = event.results[0][0].transcript.toLowerCase().trim();
+          debugLog('Erkannt: "' + transcript + '"');
+          updateStatus('Erkannt: "' + transcript + '"');
+          
+          processVoiceCommand(transcript);
+        };
+        
+        recognition.onerror = function(event) {
+          debugLog('Sprachfehler: ' + event.error);
+          updateStatus('❌ Sprachfehler: ' + event.error);
+          stopListening();
+        };
+        
+        recognition.onend = function() {
+          debugLog('Spracherkennung beendet');
+          stopListening();
+        };
+        
+        recognition.start();
+        
+      } catch (error) {
+        debugLog('Startfehler: ' + error.message);
+        updateStatus('❌ Sprachfehler: ' + error.message);
+      }
+    }
+
+    function stopListening() {
+      isListening = false;
+      if (recognition) {
+        recognition.stop();
+      }
+      
+      document.getElementById('micBtn').classList.remove('listening');
+      document.getElementById('micBtn').textContent = '🎤';
+      
+      setTimeout(() => {
+        updateStatus('Klicke auf das Mikrofon für Sprachsteuerung');
+      }, 2000);
+    }
+
+    function processVoiceCommand(transcript) {
+      debugLog('Verarbeite Befehl: "' + transcript + '"');
+      
+      let found = false;
+      
+      // Durchsuche alle KIs
+      for (const kiId in kiList) {
+        const ki = kiList[kiId];
+        
+        // Prüfe alle Namen für diese KI
+        for (const name of ki.names) {
+          if (transcript.includes(name)) {
+            debugLog('Treffer gefunden: ' + name + ' -> ' + ki.url);
+            updateStatus('✅ Öffne ' + kiId.toUpperCase());
+            openKI(ki.url);
+            found = true;
+            break;
+          }
+        }
+        
+        if (found) break;
+      }
+      
+      if (!found) {
+        updateStatus('❌ Nicht verstanden: "' + transcript + '"');
+        setTimeout(() => {
+          updateStatus('Versuche: "Öffne ChatGPT" oder "Starte Leonardo"');
+        }, 3000);
+      }
+    }
+
+    // ===========================================
+    // INITIALISIERUNG
+    // ===========================================
+    document.addEventListener('DOMContentLoaded', function() {
+      debugLog('DOM geladen, initialisiere...');
+      
+      // Button-Handler einrichten
+      setupButtonHandlers();
+      
+      // Mikrofon-Button
+      document.getElementById('micBtn').addEventListener('click', toggleListening);
+      
+      // Test-Button (erstmal versteckt)
+      if (debugMode) {
+        const testBtn = document.createElement('button');
+        testBtn.textContent = 'Test ChatGPT';
+        testBtn.onclick = () => openKI('https://chat.openai.com/');
+        document.body.appendChild(testBtn);
+      }
+      
+      debugLog('Initialisierung abgeschlossen');
+      updateStatus('✅ Alles bereit! Klicke Buttons oder nutze das Mikrofon');
+    });
+
+    // ===========================================
+    // TASTATUR SHORTCUTS
+    // ===========================================
+    document.addEventListener('keydown', function(e) {
+      if (e.code === 'Space' && e.target === document.body) {
+        e.preventDefault();
+        if (!isListening) {
+          startListening();
+        }
+      }
+      
+      if (e.key === 'Escape') {
+        stopListening();
+      }
+      
+      // Debug-Modus umschalten
+      if (e.key === 'F12') {
+        debugMode = !debugMode;
+        document.getElementById('debug').style.display = debugMode ? 'block' : 'none';
+        debugLog('Debug-Modus: ' + (debugMode ? 'AN' : 'AUS'));
+      }
+    });
+
+    // ===========================================
+    // FEHLERBEHEBUNG
+    // ===========================================
+    window.onerror = function(msg, url, line, col, error) {
+      debugLog('JavaScript Fehler: ' + msg + ' (Zeile ' + line + ')');
+      return false;
+    };
+
+    debugLog('Script geladen');
+  </script>
+</body>
+</html>
