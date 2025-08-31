@@ -155,7 +155,7 @@
         <button class="text-ai" data-url="https://gemini.google.com/">Gemini <small>(Zwilling, Google)</small></button>
         <button class="text-ai" data-url="https://copilot.microsoft.com/">Microsoft Copilot <small>(Mitfahrer)</small></button>
         <button class="text-ai" data-url="https://www.manus.ai/">Manus <small>(Schreiber)</small></button>
-        <button class="text-ai" data-url="https://www.lechat.ai/">Le Chat <small>(Franzosen, Franzmann)</small></button>
+        <button class="text-ai" data-url="https://www.lechat.ai/">Le Chat <small>(Franzosen, Franzmann, Richard)</small></button>
         <button class="text-ai" data-url="https://deepseek.ai/">DeepSeek <small>(Chinese)</small></button>
         <button class="text-ai" data-url="https://grok.com/">Grok <small>(X-Man)</small></button>
       </div>
@@ -168,10 +168,11 @@
         <button class="image-ai" data-url="https://cgdream.ai/">CGDream <small>(Dreamer, Träumer)</small></button>
         <button class="image-ai" data-url="https://preview.reve.art/app">Reve <small>(Rewe, franz. Traum)</small></button>
         <button class="image-ai" data-url="https://creator.nightcafe.studio/">NightCafe <small>(Späti, Nachtcafe)</small></button>
-        <button class="image-ai" data-url="https://qwen.ai/">Qwen <small>(Queen, chin. Königin)</small></button>
+        <button class="image-ai" data-url="https://qwen.ai/">Qwen <small>(Queen, chin. Königin, Quen)</small></button>
         <button class="image-ai" data-url="https://arena.lmsys.org/">LM Arena <small>(Arena)</small></button>
         <button class="image-ai" data-url="https://huggingface.co/spaces">HuggingFace <small>(Gesicht)</small></button>
         <button class="image-ai" data-url="https://nanobanana.ai/">Nano Banana <small>(Banane)</small></button>
+        <button class="image-ai" data-url="https://openart.ai/home">Art AI <small>(Kunst)</small></button>
       </div>
     </div>
   </div>
@@ -214,7 +215,7 @@
       },
       'lechat': { 
         url: 'https://www.lechat.ai/', 
-        names: ['le chat', 'franzosen', 'franzmann', 'den franzosen', 'den franzmann', 'französisch', 'lechat']
+        names: ['le chat', 'franzosen', 'franzmann', 'den franzosen', 'den franzmann', 'französisch', 'lechat', 'richard']
       },
       'deepseek': { 
         url: 'https://deepseek.ai/', 
@@ -242,7 +243,7 @@
       },
       'qwen': { 
         url: 'https://qwen.ai/', 
-        names: ['qwen', 'queen', 'königin', 'chinesische königin', 'die chinesische königin', 'die königin', 'kwen']
+        names: ['qwen', 'queen', 'königin', 'chinesische königin', 'die chinesische königin', 'die königin', 'kwen', 'quen']
       },
       'arena': { 
         url: 'https://arena.lmsys.org/', 
@@ -255,6 +256,10 @@
       'nanobanana': { 
         url: 'https://nanobanana.ai/', 
         names: ['nano banana', 'banane', 'die banane', 'banana', 'nano', 'nana']
+      },
+      'artai': { 
+        url: 'https://openart.ai/home', 
+        names: ['art ai', 'artai', 'kunst', 'künstler', 'art', 'maler']
       }
     };
 
@@ -262,7 +267,7 @@
     // HELPER FUNKTIONEN
     // ===========================================
     function debugLog(message) {
-      console.log('🐛 DEBUG:', message);
+      console.log('🛠 DEBUG:', message);
       if (debugMode) {
         const debugDiv = document.getElementById('debug');
         debugDiv.style.display = 'block';
