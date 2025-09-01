@@ -4,15 +4,46 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KI-Hub - Einfach & Funktionell</title>
+  
+  <!-- PWA Manifest & Theme -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#764ba2">
+  <link rel="apple-touch-icon" href="icon-192x192.png">
+
   <style>
+    :root {
+      --bg-grad-start: #667eea;
+      --bg-grad-end: #764ba2;
+      --text-light: #ffffff;
+      --text-dark: #333;
+      --section-bg: rgba(255, 255, 255, 0.95);
+      --section-h2: #555;
+      --status-bg: #e3f2fd;
+      --status-border: #2196F3;
+      --status-text: #333;
+    }
+
+    body.dark-mode {
+      --bg-grad-start: #2c3e50;
+      --bg-grad-end: #4b6cb7;
+      --text-light: #f0f0f0;
+      --text-dark: #f0f0f0;
+      --section-bg: rgba(45, 52, 71, 0.95);
+      --section-h2: #e0e0e0;
+      --status-bg: #3a476a;
+      --status-border: #5c6bc0;
+      --status-text: #f0f0f0;
+    }
+
     body {
       font-family: 'Segoe UI', Arial, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: #333;
+      background: linear-gradient(135deg, var(--bg-grad-start) 0%, var(--bg-grad-end) 100%);
+      color: var(--text-dark);
       text-align: center;
       padding: 20px;
       min-height: 100vh;
       margin: 0;
+      transition: background 0.3s, color 0.3s;
     }
     
     .container {
@@ -20,24 +51,105 @@
       margin: 0 auto;
     }
     
+    .header-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    
     h1 {
-      color: white;
-      margin-bottom: 30px;
+      color: var(--text-light);
+      margin: 0 auto;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
       font-size: 2.5em;
+    }
+
+    .theme-switch-wrapper {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      color: var(--text-light);
+      font-size: 12px;
+    }
+    .theme-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+      margin-bottom: 4px;
+    }
+    .theme-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 24px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background-color: #2196F3;
+    }
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+    
+    #installBtn {
+        margin: 20px auto 20px;
+        padding: 12px 24px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        border: none;
+        border-radius: 8px;
+        color: white;
+        background-color: #4CAF50;
+        box-shadow: 0 0 15px #4CAF50, 0 0 25px #4CAF50;
+        animation: glow 1.5s infinite alternate;
+        display: none; /* Wird per JS angezeigt */
+    }
+
+    @keyframes glow {
+        from { box-shadow: 0 0 10px #4CAF50, 0 0 20px #4CAF50; }
+        to { box-shadow: 0 0 20px #5cb85c, 0 0 30px #5cb85c; }
     }
     
     .section {
       margin: 20px 0;
       padding: 20px;
-      background: rgba(255, 255, 255, 0.95);
+      background: var(--section-bg);
       border-radius: 15px;
       box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      transition: background 0.3s;
     }
     
     .section h2 {
-      color: #555;
+      color: var(--section-h2);
       margin-bottom: 20px;
+      transition: color 0.3s;
     }
     
     button {
@@ -62,37 +174,25 @@
       margin-top: 3px;
     }
     
-    .text-ai { 
-      background: #4CAF50;
-    }
-    .text-ai:hover { 
-      background: #45a049;
-      transform: scale(1.05);
-    }
+    .text-ai { background: #4CAF50; }
+    .text-ai:hover { background: #45a049; transform: scale(1.05); }
     
-    .image-ai { 
-      background: #2196F3;
-    }
-    .image-ai:hover { 
-      background: #0b7dda;
-      transform: scale(1.05);
-    }
+    .image-ai { background: #2196F3; }
+    .image-ai:hover { background: #0b7dda; transform: scale(1.05); }
     
-    .control-btn { 
-      background: #ff9800;
-    }
-    .control-btn:hover { 
-      background: #e68900;
-    }
+    .control-btn { background: #ff9800; }
+    .control-btn:hover { background: #e68900; }
     
     #status {
       margin: 15px 0;
       padding: 15px;
       font-size: 16px;
-      background: #e3f2fd;
-      border: 2px solid #2196F3;
+      background: var(--status-bg);
+      border: 2px solid var(--status-border);
+      color: var(--status-text);
       border-radius: 8px;
       font-weight: bold;
+      transition: background 0.3s, border-color 0.3s, color 0.3s;
     }
     
     #micBtn {
@@ -133,17 +233,68 @@
       text-align: left;
       display: none;
     }
+
+    /* Gemini Feature Styles */
+    .gemini-result-container {
+        margin-top: 20px;
+        padding: 20px;
+        background: var(--status-bg);
+        border: 1px solid var(--status-border);
+        border-radius: 8px;
+        min-height: 100px;
+        text-align: left;
+        line-height: 1.6;
+        display: none; /* Initially hidden */
+        white-space: pre-wrap; /* To respect newlines from the API response */
+        color: var(--status-text);
+        transition: background 0.3s, border-color 0.3s, color 0.3s;
+    }
+
+    .loader {
+        border: 5px solid #f3f3f3;
+        border-top: 5px solid #3498db;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 20px auto;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>🤖 Mein KI-Hub</h1>
+    <div class="header-container">
+        <h1>🤖 Mein KI-Hub</h1>
+        <div class="theme-switch-wrapper">
+            <label class="theme-switch" for="checkbox">
+                <input type="checkbox" id="checkbox" />
+                <div class="slider round"></div>
+            </label>
+            <span>Nachtmodus</span>
+        </div>
+    </div>
     
+    <button id="installBtn">App installieren</button>
+
     <div class="section">
       <h2>🎤 Sprachsteuerung</h2>
       <button id="micBtn" class="control-btn">🎤</button>
       <div id="status">Klicke auf das Mikrofon für Sprachsteuerung</div>
       <div id="debug" class="debug"></div>
+    </div>
+    
+    <div class="section">
+        <h2>✨ KI des Tages</h2>
+        <p style="color: var(--section-h2);">Brauchst du eine Idee? Lass dir von mir eine zufällige, kreative Aufgabe vorschlagen!</p>
+        <button id="geminiBtn" class="control-btn" style="background: linear-gradient(135deg, #ab68e6 0%, #7d5ab5 100%); min-width: 250px;">Vorschlag generieren</button>
+        <div id="geminiResult" class="gemini-result-container">
+            <!-- Loading spinner and result will go here -->
+        </div>
     </div>
 
     <div class="section">
@@ -154,8 +305,9 @@
         <button class="text-ai" data-url="https://www.perplexity.ai/">Perplexity <small>(Plexi)</small></button>
         <button class="text-ai" data-url="https://gemini.google.com/">Gemini <small>(Zwilling, Google)</small></button>
         <button class="text-ai" data-url="https://copilot.microsoft.com/">Microsoft Copilot <small>(Mitfahrer)</small></button>
+        <button class="text-ai" data-url="https://aistudio.google.com/prompts/new_chat">Google AI Studio <small>(Ei, Studio)</small></button>
         <button class="text-ai" data-url="https://www.manus.ai/">Manus <small>(Schreiber)</small></button>
-        <button class="text-ai" data-url="https://www.lechat.ai/">Le Chat <small>(Franzosen, Franzmann, Richard)</small></button>
+        <button class="text-ai" data-url="https://www.lechat.ai/">Le Chat <small>(Franzose, Richard)</small></button>
         <button class="text-ai" data-url="https://deepseek.ai/">DeepSeek <small>(Chinese)</small></button>
         <button class="text-ai" data-url="https://grok.com/">Grok <small>(X-Man)</small></button>
       </div>
@@ -166,101 +318,80 @@
       <div class="button-grid">
         <button class="image-ai" data-url="https://app.leonardo.ai/">Leonardo AI <small>(Lenni, Lenny)</small></button>
         <button class="image-ai" data-url="https://cgdream.ai/">CGDream <small>(Dreamer, Träumer)</small></button>
+        <button class="image-ai" data-url="https://ideogram.ai/t/explore">Ideogram <small>(Idiota)</small></button>
         <button class="image-ai" data-url="https://preview.reve.art/app">Reve <small>(Rewe, franz. Traum)</small></button>
         <button class="image-ai" data-url="https://creator.nightcafe.studio/">NightCafe <small>(Späti, Nachtcafe)</small></button>
-        <button class="image-ai" data-url="https://qwen.ai/">Qwen <small>(Queen, chin. Königin, Quen)</small></button>
+        <button class="image-ai" data-url="https://qwen.ai/">Qwen <small>(Queen, chin. Königin, Wenn)</small></button>
         <button class="image-ai" data-url="https://arena.lmsys.org/">LM Arena <small>(Arena)</small></button>
         <button class="image-ai" data-url="https://huggingface.co/spaces">HuggingFace <small>(Gesicht)</small></button>
         <button class="image-ai" data-url="https://nanobanana.ai/">Nano Banana <small>(Banane)</small></button>
-        <button class="image-ai" data-url="https://openart.ai/home">Art AI <small>(Kunst)</small></button>
+        <button class="image-ai" data-url="https://openart.ai/home">Open Art <small>(Kunst, Art AI)</small></button>
       </div>
     </div>
   </div>
 
   <script>
     // ===========================================
+    // PWA & SERVICE WORKER LOGIK
+    // ===========================================
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').then(reg => console.log('SW registriert')).catch(err => console.log('SW Fehler', err));
+      });
+    }
+
+    let deferredPrompt;
+    const installBtn = document.getElementById('installBtn');
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.style.display = 'block';
+    });
+    
+    installBtn.addEventListener('click', (e) => {
+      installBtn.style.display = 'none';
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult) => {
+        console.log(choiceResult.outcome === 'accepted' ? 'App installiert' : 'Installation abgelehnt');
+        deferredPrompt = null;
+      });
+    });
+
+    if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
+      installBtn.style.display = 'none';
+    }
+
+    // ===========================================
     // GLOBALE VARIABLEN
     // ===========================================
     let recognition = null;
     let isListening = false;
-    let debugMode = false; // Auf true setzen für Debug-Infos
+    let debugMode = false;
 
     // ===========================================
     // ERWEITERTE KI-DEFINITIONEN MIT DEUTSCHEN BEGRIFFEN
     // ===========================================
     const kiList = {
-      'chatgpt': { 
-        url: 'https://chat.openai.com/', 
-        names: ['chatgpt', 'chat gpt', 'chat', 'gpt', 'openai', 'chegti', 'tschett']
-      },
-      'claude': { 
-        url: 'https://claude.ai/', 
-        names: ['claude', 'claudia', 'klaud', 'klaude', 'cloud', 'claud']
-      },
-      'perplexity': { 
-        url: 'https://www.perplexity.ai/', 
-        names: ['perplexity', 'plexi', 'perp', 'suche', 'perplex', 'komplexität']
-      },
-      'gemini': { 
-        url: 'https://gemini.google.com/', 
-        names: ['gemini', 'zwilling', 'zwillinge', 'google', 'gugel', 'dschemini', 'den zwilling']
-      },
-      'copilot': { 
-        url: 'https://copilot.microsoft.com/', 
-        names: ['copilot', 'mitfahrer', 'pilot', 'microsoft', 'den mitfahrer', 'kopilot']
-      },
-      'manus': { 
-        url: 'https://www.manus.ai/', 
-        names: ['manus', 'schreiber', 'text', 'schreiben', 'den schreiber', 'hand']
-      },
-      'lechat': { 
-        url: 'https://www.lechat.ai/', 
-        names: ['le chat', 'franzosen', 'franzmann', 'den franzosen', 'den franzmann', 'französisch', 'lechat', 'richard']
-      },
-      'deepseek': { 
-        url: 'https://deepseek.ai/', 
-        names: ['deepseek', 'chinese', 'chinesen', 'den chinesen', 'den chinese', 'china', 'deep', 'seek']
-      },
-      'grok': { 
-        url: 'https://grok.com/', 
-        names: ['grok', 'x-man', 'xmen', 'x men', 'elon', 'twitter', 'x', 'grog']
-      },
-      'leonardo': { 
-        url: 'https://app.leonardo.ai/', 
-        names: ['leonardo', 'lenni', 'lenny', 'leo', 'bild', 'bilder', 'künstler', 'da vinci']
-      },
-      'cgdream': { 
-        url: 'https://cgdream.ai/', 
-        names: ['cgdream', 'dreamer', 'träumer', 'den träumer', 'dream', 'traum', 'cg']
-      },
-      'reve': { 
-        url: 'https://preview.reve.art/app', 
-        names: ['reve', 'rewe', 'französischen traum', 'den französischen traum', 'rev', 'französisch traum']
-      },
-      'nightcafe': { 
-        url: 'https://creator.nightcafe.studio/', 
-        names: ['nightcafe', 'späti', 'nachtcafe', 'nacht cafe', 'kaffee', 'den späti', 'night']
-      },
-      'qwen': { 
-        url: 'https://qwen.ai/', 
-        names: ['qwen', 'queen', 'königin', 'chinesische königin', 'die chinesische königin', 'die königin', 'kwen', 'quen']
-      },
-      'arena': { 
-        url: 'https://arena.lmsys.org/', 
-        names: ['arena', 'die arena', 'lm arena', 'kampf', 'vergleich']
-      },
-      'huggingface': { 
-        url: 'https://huggingface.co/spaces', 
-        names: ['huggingface', 'gesicht', 'das gesicht', 'hugging', 'umarmung', 'hug']
-      },
-      'nanobanana': { 
-        url: 'https://nanobanana.ai/', 
-        names: ['nano banana', 'banane', 'die banane', 'banana', 'nano', 'nana']
-      },
-      'artai': { 
-        url: 'https://openart.ai/home', 
-        names: ['art ai', 'artai', 'kunst', 'künstler', 'art', 'maler']
-      }
+      'chatgpt': { url: 'https://chat.openai.com/', names: ['chatgpt', 'chat gpt', 'chat', 'gpt', 'openai', 'chegti', 'tschett'] },
+      'claude': { url: 'https://claude.ai/', names: ['claude', 'claudia', 'klaud', 'klaude', 'cloud', 'claud'] },
+      'perplexity': { url: 'https://www.perplexity.ai/', names: ['perplexity', 'plexi', 'perp', 'suche', 'perplex', 'komplexität'] },
+      'gemini': { url: 'https://gemini.google.com/', names: ['gemini', 'zwilling', 'zwillinge', 'google', 'gugel', 'dschemini', 'den zwilling'] },
+      'copilot': { url: 'https://copilot.microsoft.com/', names: ['copilot', 'mitfahrer', 'pilot', 'microsoft', 'den mitfahrer', 'kopilot'] },
+      'aistudio': { url: 'https://aistudio.google.com/prompts/new_chat', names: ['google ai studio', 'ai studio', 'studio', 'ei'] },
+      'manus': { url: 'https://www.manus.ai/', names: ['manus', 'schreiber', 'text', 'schreiben', 'den schreiber', 'hand'] },
+      'lechat': { url: 'https://www.lechat.ai/', names: ['le chat', 'franzose', 'den franzose', 'französisch', 'lechat', 'richard'] },
+      'deepseek': { url: 'https://deepseek.ai/', names: ['deepseek', 'chinese', 'chinesen', 'den chinesen', 'den chinese', 'china', 'deep', 'seek'] },
+      'grok': { url: 'https://grok.com/', names: ['grok', 'x-man', 'xmen', 'x men', 'elon', 'twitter', 'x', 'grog'] },
+      'leonardo': { url: 'https://app.leonardo.ai/', names: ['leonardo', 'lenni', 'lenny', 'leo', 'bild', 'bilder', 'künstler', 'da vinci'] },
+      'cgdream': { url: 'https://cgdream.ai/', names: ['cgdream', 'dreamer', 'träumer', 'den träumer', 'dream', 'traum', 'cg'] },
+      'ideogram': { url: 'https://ideogram.ai/t/explore', names: ['ideogram', 'idiota'] },
+      'reve': { url: 'https://preview.reve.art/app', names: ['reve', 'rewe', 'französischen traum', 'den französischen traum', 'rev', 'französisch traum'] },
+      'nightcafe': { url: 'https://creator.nightcafe.studio/', names: ['nightcafe', 'späti', 'nachtcafe', 'nacht cafe', 'kaffee', 'den späti', 'night'] },
+      'qwen': { url: 'https://qwen.ai/', names: ['qwen', 'queen', 'königin', 'chinesische königin', 'die chinesische königin', 'die königin', 'kwen', 'wenn'] },
+      'arena': { url: 'https://arena.lmsys.org/', names: ['arena', 'die arena', 'lm arena', 'kampf', 'vergleich'] },
+      'huggingface': { url: 'https://huggingface.co/spaces', names: ['huggingface', 'gesicht', 'das gesicht', 'hugging', 'umarmung', 'hug'] },
+      'nanobanana': { url: 'https://nanobanana.ai/', names: ['nano banana', 'banane', 'die banane', 'banana', 'nano', 'nana'] },
+      'openart': { url: 'https://openart.ai/home', names: ['open art', 'art ai', 'artai', 'kunst', 'künstler', 'art', 'maler'] }
     };
 
     // ===========================================
@@ -282,36 +413,18 @@
     }
 
     // ===========================================
-    // KI ÖFFNEN FUNKTION (EINFACH)
+    // KI ÖFFNEN FUNKTION
     // ===========================================
     function openKI(url) {
       debugLog('Versuche zu öffnen: ' + url);
       try {
         const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
-        if (newWindow) {
-          updateStatus('✅ KI wird geöffnet: ' + url);
-        } else {
+        if (!newWindow) {
           updateStatus('❌ Popup blockiert! Erlaube Popups für diese Seite');
         }
       } catch (error) {
-        debugLog('Fehler beim Öffnen: ' + error.message);
         updateStatus('❌ Fehler beim Öffnen der URL');
       }
-    }
-
-    // ===========================================
-    // BUTTON CLICK HANDLER
-    // ===========================================
-    function setupButtonHandlers() {
-      const buttons = document.querySelectorAll('button[data-url]');
-      buttons.forEach(button => {
-        button.addEventListener('click', function() {
-          const url = this.getAttribute('data-url');
-          const name = this.textContent;
-          debugLog('Button geklickt: ' + name + ' -> ' + url);
-          openKI(url);
-        });
-      });
     }
 
     // ===========================================
@@ -326,158 +439,152 @@
     }
 
     function startListening() {
-      debugLog('Versuche Spracherkennung zu starten...');
-      
-      // Browser-Check
       if (!window.webkitSpeechRecognition && !window.SpeechRecognition) {
         updateStatus('❌ Spracherkennung nicht unterstützt');
         return;
       }
-
       try {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         recognition = new SpeechRecognition();
-        
         recognition.lang = 'de-DE';
-        recognition.continuous = false; // Einmalige Erkennung
+        recognition.continuous = false;
         recognition.interimResults = false;
         
-        recognition.onstart = function() {
+        recognition.onstart = () => {
           isListening = true;
           document.getElementById('micBtn').classList.add('listening');
           document.getElementById('micBtn').textContent = '🛑';
-          updateStatus('🎤 Ich höre... Sage z.B. "Öffne ChatGPT"');
-          debugLog('Spracherkennung gestartet');
+          updateStatus('🎤 Ich höre...');
         };
         
-        recognition.onresult = function(event) {
+        recognition.onresult = (event) => {
           const transcript = event.results[0][0].transcript.toLowerCase().trim();
-          debugLog('Erkannt: "' + transcript + '"');
           updateStatus('Erkannt: "' + transcript + '"');
-          
           processVoiceCommand(transcript);
         };
         
-        recognition.onerror = function(event) {
-          debugLog('Sprachfehler: ' + event.error);
+        recognition.onerror = (event) => {
           updateStatus('❌ Sprachfehler: ' + event.error);
           stopListening();
         };
         
-        recognition.onend = function() {
-          debugLog('Spracherkennung beendet');
-          stopListening();
-        };
+        recognition.onend = () => stopListening();
         
         recognition.start();
-        
       } catch (error) {
-        debugLog('Startfehler: ' + error.message);
         updateStatus('❌ Sprachfehler: ' + error.message);
       }
     }
 
     function stopListening() {
       isListening = false;
-      if (recognition) {
-        recognition.stop();
-      }
-      
+      if (recognition) recognition.stop();
       document.getElementById('micBtn').classList.remove('listening');
       document.getElementById('micBtn').textContent = '🎤';
-      
-      setTimeout(() => {
-        updateStatus('Klicke auf das Mikrofon für Sprachsteuerung');
-      }, 2000);
     }
 
     function processVoiceCommand(transcript) {
-      debugLog('Verarbeite Befehl: "' + transcript + '"');
-      
       let found = false;
-      
-      // Durchsuche alle KIs
       for (const kiId in kiList) {
-        const ki = kiList[kiId];
-        
-        // Prüfe alle Namen für diese KI
-        for (const name of ki.names) {
-          if (transcript.includes(name)) {
-            debugLog('Treffer gefunden: ' + name + ' -> ' + ki.url);
-            updateStatus('✅ Öffne ' + kiId.toUpperCase());
-            openKI(ki.url);
-            found = true;
-            break;
-          }
+        if (kiList[kiId].names.some(name => transcript.includes(name))) {
+          updateStatus('✅ Öffne ' + kiId.toUpperCase());
+          openKI(kiList[kiId].url);
+          found = true;
+          break;
         }
-        
-        if (found) break;
       }
-      
       if (!found) {
         updateStatus('❌ Nicht verstanden: "' + transcript + '"');
-        setTimeout(() => {
-          updateStatus('Versuche: "Öffne ChatGPT" oder "Starte Leonardo"');
-        }, 3000);
       }
     }
+
+    // ===========================================
+    // GEMINI API FEATURE: KI DES TAGES
+    // ===========================================
+    async function getAIDaySuggestion() {
+        const geminiResultDiv = document.getElementById('geminiResult');
+        geminiResultDiv.style.display = 'block';
+        geminiResultDiv.innerHTML = '<div class="loader"></div>';
+
+        const aiButtons = document.querySelectorAll('.text-ai, .image-ai');
+        const aiNames = Array.from(aiButtons).map(btn => btn.innerText.split('<small>')[0].trim());
+
+        const systemPrompt = `Du bist ein KI-Experte und kreativer Berater. Hier ist eine Liste von KI-Tools: ${aiNames.join(', ')}. Wähle EINES dieser Tools aus. Schreibe dann eine kurze, inspirierende Empfehlung für eine kreative oder produktive Aufgabe, die man heute damit ausprobieren könnte. Gib den Namen des Tools fett formatiert (**Toolname:**) an und erkläre die Aufgabe in einem einzigen, ansprechenden Absatz. Antworte auf Deutsch.`;
+        const userQuery = "Gib mir eine Empfehlung für heute.";
+
+        const apiKey = ""; // Wird von der Canvas-Umgebung bereitgestellt
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+        const payload = {
+            contents: [{ parts: [{ text: userQuery }] }],
+            systemInstruction: {
+                parts: [{ text: systemPrompt }]
+            },
+        };
+
+        try {
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error(`API-Fehler: ${response.status}`);
+            }
+
+            const result = await response.json();
+            const candidate = result.candidates?.[0];
+
+            if (candidate && candidate.content?.parts?.[0]?.text) {
+                let text = candidate.content.parts[0].text;
+                // Sanitize and format the text
+                text = text.replace(/</g, "&lt;").replace(/>/g, "&gt;"); // Basic sanitization
+                text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // Convert markdown bold to HTML bold
+                geminiResultDiv.innerHTML = text;
+            } else {
+                geminiResultDiv.innerText = 'Entschuldigung, es konnte kein Vorschlag generiert werden. Versuche es später erneut.';
+                console.error('Ungültige API-Antwort:', result);
+            }
+
+        } catch (error) {
+            console.error('Fehler bei der Gemini API-Anfrage:', error);
+            geminiResultDiv.innerText = 'Ein Fehler ist aufgetreten. Bitte überprüfe die Konsole für Details.';
+        }
+    }
+
 
     // ===========================================
     // INITIALISIERUNG
     // ===========================================
     document.addEventListener('DOMContentLoaded', function() {
-      debugLog('DOM geladen, initialisiere...');
-      
       // Button-Handler einrichten
-      setupButtonHandlers();
+      document.querySelectorAll('button[data-url]').forEach(button => {
+        button.addEventListener('click', () => openKI(button.getAttribute('data-url')));
+      });
       
       // Mikrofon-Button
       document.getElementById('micBtn').addEventListener('click', toggleListening);
       
-      // Test-Button (erstmal versteckt)
-      if (debugMode) {
-        const testBtn = document.createElement('button');
-        testBtn.textContent = 'Test ChatGPT';
-        testBtn.onclick = () => openKI('https://chat.openai.com/');
-        document.body.appendChild(testBtn);
-      }
+      // Gemini-Button
+      document.getElementById('geminiBtn').addEventListener('click', getAIDaySuggestion);
       
-      debugLog('Initialisierung abgeschlossen');
-      updateStatus('✅ Alles bereit! Klicke Buttons oder nutze das Mikrofon');
+      // Nachtmodus-Schalter
+      const themeSwitch = document.getElementById('checkbox');
+      themeSwitch.addEventListener('change', () => {
+        document.body.classList.toggle('dark-mode');
+        localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+      });
+
+      // Gespeichertes Theme laden
+      if (localStorage.getItem('theme') === 'dark') {
+          document.body.classList.add('dark-mode');
+          themeSwitch.checked = true;
+      }
+
+      updateStatus('✅ Alles bereit!');
     });
 
-    // ===========================================
-    // TASTATUR SHORTCUTS
-    // ===========================================
-    document.addEventListener('keydown', function(e) {
-      if (e.code === 'Space' && e.target === document.body) {
-        e.preventDefault();
-        if (!isListening) {
-          startListening();
-        }
-      }
-      
-      if (e.key === 'Escape') {
-        stopListening();
-      }
-      
-      // Debug-Modus umschalten
-      if (e.key === 'F12') {
-        debugMode = !debugMode;
-        document.getElementById('debug').style.display = debugMode ? 'block' : 'none';
-        debugLog('Debug-Modus: ' + (debugMode ? 'AN' : 'AUS'));
-      }
-    });
-
-    // ===========================================
-    // FEHLERBEHEBUNG
-    // ===========================================
-    window.onerror = function(msg, url, line, col, error) {
-      debugLog('JavaScript Fehler: ' + msg + ' (Zeile ' + line + ')');
-      return false;
-    };
-
-    debugLog('Script geladen');
   </script>
 </body>
 </html>
