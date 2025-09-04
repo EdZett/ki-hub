@@ -237,36 +237,6 @@
       display: none;
     }
 
-    /* Gemini Feature Styles */
-    .gemini-result-container {
-        margin-top: 20px;
-        padding: 20px;
-        background: var(--status-bg);
-        border: 1px solid var(--status-border);
-        border-radius: 8px;
-        min-height: 100px;
-        text-align: left;
-        line-height: 1.6;
-        display: none; /* Initially hidden */
-        white-space: pre-wrap; /* To respect newlines from the API response */
-        color: var(--status-text);
-        transition: background 0.3s, border-color 0.3s, color 0.3s;
-    }
-
-    .loader {
-        border: 5px solid #f3f3f3;
-        border-top: 5px solid #3498db;
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        animation: spin 1s linear infinite;
-        margin: 20px auto;
-    }
-
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
   </style>
 </head>
 <body>
@@ -291,15 +261,6 @@
       <div id="debug" class="debug"></div>
     </div>
     
-    <div class="section">
-        <h2>✨ KI des Tages</h2>
-        <p style="color: var(--section-h2);">Brauchst du eine Idee? Lass dir von mir eine zufällige, kreative Aufgabe vorschlagen!</p>
-        <button id="geminiBtn" class="control-btn" style="background: linear-gradient(135deg, #ab68e6 0%, #7d5ab5 100%); min-width: 250px;">Vorschlag generieren</button>
-        <div id="geminiResult" class="gemini-result-container">
-            <!-- Loading spinner and result will go here -->
-        </div>
-    </div>
-
     <div class="section">
       <h2>💬 Text-KIs</h2>
       <div class="button-grid">
@@ -418,10 +379,10 @@
       'huggingface': { url: 'https://huggingface.co/spaces', names: ['huggingface', 'gesicht', 'das gesicht', 'hugging', 'umarmung', 'hug'] },
       'nanobanana': { url: 'https://nanobanana.ai/', names: ['nano banana', 'banane', 'die banane', 'banana', 'nano', 'nana'] },
       'openart': { url: 'https://openart.ai/home', names: ['open art', 'art ai', 'artai', 'kunst', 'künstler', 'art', 'maler'] },
-      'github': { url: 'https://github.com/', names: ['github', 'githab', 'git hab', 'zuhause', 'git hub'] },
+      'github': { url: 'https://github.com/', names: ['github', 'githab', 'git hab', 'zuhause', 'git hub', 'mein zuhause', 'zu hause'] },
       'notebooklm': { url: 'https://notebooklm.google.com/', names: ['notebooklm', 'notizbuch', 'notebook', 'notes'] },
-      'googleaidev': { url: 'https://ai.google.dev/', names: ['google ai for developers', 'entwickler', 'ai für entwickler', 'google'] },
-      'elevenlabs': { url: 'https://elevenlabs.io/app/home', names: ['elevenlabs', 'eleven labs', 'eleven', 'elf', 'stimmen', 'elfen'] }
+      'googleaidev': { url: 'https://ai.google.dev/', names: ['google ai for developers', 'entwickler', 'ai für entwickler', 'google', 'google entwickler', 'entwickler google'] },
+      'elevenlabs': { url: 'https://elevenlabs.io/app/home', names: ['elevenlabs', 'eleven labs', 'eleven', 'elf', 'stimmen', 'elfen', 'die elf', 'elf labs'] }
     };
 
     // ===========================================
@@ -537,62 +498,6 @@
     }
 
     // ===========================================
-    // GEMINI API FEATURE: KI DES TAGES
-    // ===========================================
-    async function getAIDaySuggestion() {
-        const geminiResultDiv = document.getElementById('geminiResult');
-        geminiResultDiv.style.display = 'block';
-        geminiResultDiv.innerHTML = '<div class="loader"></div>';
-
-        const aiButtons = document.querySelectorAll('.text-ai, .image-ai');
-        const aiNames = Array.from(aiButtons).map(btn => btn.innerText.split('<small>')[0].trim());
-
-        const systemPrompt = `Du bist ein KI-Experte und kreativer Berater. Hier ist eine Liste von KI-Tools: ${aiNames.join(', ')}. Wähle EINES dieser Tools aus. Schreibe dann eine kurze, inspirierende Empfehlung für eine kreative oder produktive Aufgabe, die man heute damit ausprobieren könnte. Gib den Namen des Tools fett formatiert (**Toolname:**) an und erkläre die Aufgabe in einem einzigen, ansprechenden Absatz. Antworte auf Deutsch.`;
-        const userQuery = "Gib mir eine Empfehlung für heute.";
-
-        const apiKey = ""; // Wird von der Canvas-Umgebung bereitgestellt
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
-
-        const payload = {
-            contents: [{ parts: [{ text: userQuery }] }],
-            systemInstruction: {
-                parts: [{ text: systemPrompt }]
-            },
-        };
-
-        try {
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            if (!response.ok) {
-                throw new Error(`API-Fehler: ${response.status}`);
-            }
-
-            const result = await response.json();
-            const candidate = result.candidates?.[0];
-
-            if (candidate && candidate.content?.parts?.[0]?.text) {
-                let text = candidate.content.parts[0].text;
-                // Sanitize and format the text
-                text = text.replace(/</g, "&lt;").replace(/>/g, "&gt;"); // Basic sanitization
-                text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // Convert markdown bold to HTML bold
-                geminiResultDiv.innerHTML = text;
-            } else {
-                geminiResultDiv.innerText = 'Entschuldigung, es konnte kein Vorschlag generiert werden. Versuche es später erneut.';
-                console.error('Ungültige API-Antwort:', result);
-            }
-
-        } catch (error) {
-            console.error('Fehler bei der Gemini API-Anfrage:', error);
-            geminiResultDiv.innerText = 'Ein Fehler ist aufgetreten. Bitte überprüfe die Konsole für Details.';
-        }
-    }
-
-
-    // ===========================================
     // INITIALISIERUNG
     // ===========================================
     document.addEventListener('DOMContentLoaded', function() {
@@ -611,9 +516,6 @@
           toggleListening();
         }
       });
-      
-      // Gemini-Button
-      document.getElementById('geminiBtn').addEventListener('click', getAIDaySuggestion);
       
       // Nachtmodus-Schalter
       const themeSwitch = document.getElementById('checkbox');
