@@ -179,6 +179,9 @@
     
     .image-ai { background: #2196F3; }
     .image-ai:hover { background: #0b7dda; transform: scale(1.05); }
+
+    .utility-ai { background: #ff9800; }
+    .utility-ai:hover { background: #e68900; transform: scale(1.05); }
     
     .control-btn { background: #ff9800; }
     .control-btn:hover { background: #e68900; }
@@ -319,15 +322,32 @@
         <button class="image-ai" data-url="https://app.leonardo.ai/">Leonardo AI <small>(Lenni, Lenny)</small></button>
         <button class="image-ai" data-url="https://cgdream.ai/">CGDream <small>(Dreamer, Träumer)</small></button>
         <button class="image-ai" data-url="https://ideogram.ai/t/explore">Ideogram <small>(Idiota)</small></button>
+        <button class="image-ai" data-url="https://console.byteplus.com/ark/region:ark+ap-southeast-1/experience/vision?type=GenImage">ByteDance <small>(Model Ark, Modellbogen)</small></button>
+        <button class="image-ai" data-url="https://dreamstudio.stability.ai/creations">Dream Studio <small>(stabile Diffusion)</small></button>
+        <button class="image-ai" data-url="https://www.freepik.com/pikaso/ai-image-generator">Freepik Ai <small>(Frei, Schwein)</small></button>
+        <button class="image-ai" data-url="https://home.mimicpc.com/applications">MimicPC <small>(Fratze)</small></button>
+        <button class="image-ai" data-url="https://wavespeed.ai/">WaveSpeed.AI <small>(schnell, Welle)</small></button>
+        <button class="image-ai" data-url="https://higgsfield.ai/">Higgsfield <small>(Klingen, Felderl)</small></button>
         <button class="image-ai" data-url="https://preview.reve.art/app">Reve <small>(Rewe, franz. Traum)</small></button>
         <button class="image-ai" data-url="https://creator.nightcafe.studio/">NightCafe <small>(Späti, Nachtcafe)</small></button>
-        <button class="image-ai" data-url="https://qwen.ai/">Qwen <small>(Queen, chin. Königin, Wenn)</small></button>
+        <button class="image-ai" data-url="https://qwen.ai/">Qwen <small>(Queen, chin. Königin, Quiin)</small></button>
         <button class="image-ai" data-url="https://arena.lmsys.org/">LM Arena <small>(Arena)</small></button>
         <button class="image-ai" data-url="https://huggingface.co/spaces">HuggingFace <small>(Gesicht)</small></button>
         <button class="image-ai" data-url="https://nanobanana.ai/">Nano Banana <small>(Banane)</small></button>
         <button class="image-ai" data-url="https://openart.ai/home">Open Art <small>(Kunst, Art AI)</small></button>
       </div>
     </div>
+
+    <div class="section">
+      <h2>🛠️ Nützliche-KIs</h2>
+      <div class="button-grid">
+        <button class="utility-ai" data-url="https://github.com/">GitHub <small>(Zuhause)</small></button>
+        <button class="utility-ai" data-url="https://notebooklm.google.com/">NotebookLM <small>(Notizbuch)</small></button>
+        <button class="utility-ai" data-url="https://ai.google.dev/">Google AI for Developers <small>(Entwickler)</small></button>
+        <button class="utility-ai" data-url="https://elevenlabs.io/app/home">ElevenLabs <small>(Elf, Stimmen)</small></button>
+      </div>
+    </div>
+
   </div>
 
   <script>
@@ -377,21 +397,31 @@
       'perplexity': { url: 'https://www.perplexity.ai/', names: ['perplexity', 'plexi', 'perp', 'suche', 'perplex', 'komplexität'] },
       'gemini': { url: 'https://gemini.google.com/', names: ['gemini', 'zwilling', 'zwillinge', 'google', 'gugel', 'dschemini', 'den zwilling'] },
       'copilot': { url: 'https://copilot.microsoft.com/', names: ['copilot', 'mitfahrer', 'pilot', 'microsoft', 'den mitfahrer', 'kopilot'] },
-      'aistudio': { url: 'https://aistudio.google.com/prompts/new_chat', names: ['google ai studio', 'ai studio', 'studio', 'ei'] },
-      'manus': { url: 'https://www.manus.ai/', names: ['manus', 'schreiber', 'text', 'schreiben', 'den schreiber', 'hand'] },
-      'lechat': { url: 'https://www.lechat.ai/', names: ['le chat', 'franzose', 'den franzose', 'französisch', 'lechat', 'richard'] },
+      'aistudio': { url: 'https://aistudio.google.com/prompts/new_chat', names: ['google ai studio', 'ai studio', 'studio', 'google ei studio'] },
+      'manus': { url: 'https://www.manus.ai/', names: ['manus', 'manuus', 'manos', 'menno', 'hand'] },
+      'lechat': { url: 'https://www.lechat.ai/', names: ['le chat', 'le schat', 'le tschat', 'franzose', 'den franzose', 'französisch', 'lechat', 'richard'] },
       'deepseek': { url: 'https://deepseek.ai/', names: ['deepseek', 'chinese', 'chinesen', 'den chinesen', 'den chinese', 'china', 'deep', 'seek'] },
-      'grok': { url: 'https://grok.com/', names: ['grok', 'x-man', 'xmen', 'x men', 'elon', 'twitter', 'x', 'grog'] },
+      'grok': { url: 'https://grok.com/', names: ['grok', 'grock', 'grogg', 'x-man', 'xmen', 'x men', 'elon', 'twitter', 'x', 'grog'] },
       'leonardo': { url: 'https://app.leonardo.ai/', names: ['leonardo', 'lenni', 'lenny', 'leo', 'bild', 'bilder', 'künstler', 'da vinci'] },
       'cgdream': { url: 'https://cgdream.ai/', names: ['cgdream', 'dreamer', 'träumer', 'den träumer', 'dream', 'traum', 'cg'] },
       'ideogram': { url: 'https://ideogram.ai/t/explore', names: ['ideogram', 'idiota'] },
+      'wavespeed': { url: 'https://wavespeed.ai/', names: ['wavespeed', 'schnell schnell', 'schnell', 'welle'] },
+      'bytedance': { url: 'https://console.byteplus.com/ark/region:ark+ap-southeast-1/experience/vision?type=GenImage', names: ['bytedance', 'model ark', 'modellbogen', 'beit'] },
+      'dreamstudio': { url: 'https://dreamstudio.stability.ai/creations', names: ['dream studio', 'stabile diffusion'] },
+      'freepikai': { url: 'https://www.freepik.com/pikaso/ai-image-generator', names: ['freepik ai', 'freepik', 'frei', 'schwein'] },
+      'mimicpc': { url: 'https://home.mimicpc.com/applications', names: ['mimicpc', 'fratze'] },
+      'higgsfield': { url: 'https://higgsfield.ai/', names: ['higgsfield', 'klingen', 'felderl'] },
       'reve': { url: 'https://preview.reve.art/app', names: ['reve', 'rewe', 'französischen traum', 'den französischen traum', 'rev', 'französisch traum'] },
       'nightcafe': { url: 'https://creator.nightcafe.studio/', names: ['nightcafe', 'späti', 'nachtcafe', 'nacht cafe', 'kaffee', 'den späti', 'night'] },
-      'qwen': { url: 'https://qwen.ai/', names: ['qwen', 'queen', 'königin', 'chinesische königin', 'die chinesische königin', 'die königin', 'kwen', 'wenn'] },
+      'qwen': { url: 'https://qwen.ai/', names: ['qwen', 'queen', 'königin', 'chinesische königin', 'die chinesische königin', 'die königin', 'kwen', 'quiin'] },
       'arena': { url: 'https://arena.lmsys.org/', names: ['arena', 'die arena', 'lm arena', 'kampf', 'vergleich'] },
       'huggingface': { url: 'https://huggingface.co/spaces', names: ['huggingface', 'gesicht', 'das gesicht', 'hugging', 'umarmung', 'hug'] },
       'nanobanana': { url: 'https://nanobanana.ai/', names: ['nano banana', 'banane', 'die banane', 'banana', 'nano', 'nana'] },
-      'openart': { url: 'https://openart.ai/home', names: ['open art', 'art ai', 'artai', 'kunst', 'künstler', 'art', 'maler'] }
+      'openart': { url: 'https://openart.ai/home', names: ['open art', 'art ai', 'artai', 'kunst', 'künstler', 'art', 'maler'] },
+      'github': { url: 'https://github.com/', names: ['github', 'githab', 'git hab', 'zuhause', 'git hub'] },
+      'notebooklm': { url: 'https://notebooklm.google.com/', names: ['notebooklm', 'notizbuch', 'notebook', 'notes'] },
+      'googleaidev': { url: 'https://ai.google.dev/', names: ['google ai for developers', 'entwickler', 'ai für entwickler', 'google'] },
+      'elevenlabs': { url: 'https://elevenlabs.io/app/home', names: ['elevenlabs', 'eleven labs', 'eleven', 'elf', 'stimmen', 'elfen'] }
     };
 
     // ===========================================
@@ -418,12 +448,17 @@
     function openKI(url) {
       debugLog('Versuche zu öffnen: ' + url);
       try {
-        const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
-        if (!newWindow) {
-          updateStatus('❌ Popup blockiert! Erlaube Popups für diese Seite');
-        }
+        const a = document.createElement('a');
+        a.href = url;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
       } catch (error) {
         updateStatus('❌ Fehler beim Öffnen der URL');
+        console.error('Fehler beim Öffnen der URL:', error);
       }
     }
 
@@ -477,10 +512,13 @@
     }
 
     function stopListening() {
-      isListening = false;
-      if (recognition) recognition.stop();
-      document.getElementById('micBtn').classList.remove('listening');
-      document.getElementById('micBtn').textContent = '🎤';
+        if (recognition) {
+            recognition.stop();
+        }
+        isListening = false;
+        document.getElementById('micBtn').classList.remove('listening');
+        document.getElementById('micBtn').textContent = '🎤';
+        updateStatus('✅ Spracherkennung beendet.');
     }
 
     function processVoiceCommand(transcript) {
@@ -565,6 +603,14 @@
       
       // Mikrofon-Button
       document.getElementById('micBtn').addEventListener('click', toggleListening);
+      
+      // Leertasten-Listener hinzufügen
+      document.addEventListener('keydown', (event) => {
+        if (event.code === 'Space' && event.target.tagName !== 'INPUT' && event.target.tagName !== 'TEXTAREA') {
+          event.preventDefault(); // Verhindert das Scrollen der Seite
+          toggleListening();
+        }
+      });
       
       // Gemini-Button
       document.getElementById('geminiBtn').addEventListener('click', getAIDaySuggestion);
